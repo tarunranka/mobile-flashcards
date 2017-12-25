@@ -10,6 +10,7 @@ import {
 import {connect} from 'react-redux';
 import {fetchDeck} from '../actions';
 import {white, purple} from '../utils/colors';
+import clearLocalNotification from '../utils/helper';
 
 class StartQuiz extends Component {
   state = {
@@ -47,6 +48,7 @@ class StartQuiz extends Component {
     this.setState({currentcount: currentcount + 1});
     if (currentcount + 1 === questions.length) {
       this.setState({complete: true});
+      clearLocalNotification();
     }
   }
   correctSubmit = () => {
