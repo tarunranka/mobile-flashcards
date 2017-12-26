@@ -10,7 +10,7 @@ import {
 import {connect} from 'react-redux';
 import {fetchDeck} from '../actions';
 import {white, purple} from '../utils/colors';
-import clearLocalNotification from '../utils/helper';
+import {clearLocalNotification} from '../utils/helper';
 
 class StartQuiz extends Component {
   state = {
