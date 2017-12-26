@@ -22,11 +22,13 @@ class NewDeck extends Component {
     if (title === '') {
       Alert.alert('Please enter a new deck title');
     } else {
-      this.props.savenewdeck({title});
-      this.props.getDecks();
-      this.props.navigation.goBack();
-      this.setState({
-        title: ''
+      this.props.savenewdeck({title}).then(data => {
+        this.props.getDecks().then(data => {
+          this.props.navigation.navigate('DeckDetail', {title: title});
+          this.setState({
+            title: ''
+          });
+        });
       });
     }
   };
@@ -58,7 +60,9 @@ class NewDeck extends Component {
     );
   }
 }
-
+const mapStateToProps = ({decks}, ownProps) => ({
+  decks: decks || []
+});
 const mapDispatchToProps = dispatch => ({
   savenewdeck: title => dispatch(savenewdeck(title)),
   getDecks: () => dispatch(fetchDecks())
@@ -104,4 +108,4 @@ const styles = StyleSheet.create({
   }
 });
 
-export default connect(null, mapDispatchToProps)(NewDeck);
+export default connect(mapStateToProps, mapDispatchToProps)(NewDeck);

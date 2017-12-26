@@ -9,8 +9,8 @@ import {
 } from 'react-native';
 import {connect} from 'react-redux';
 import {NavigationActions} from 'react-navigation';
-import {fetchDeck} from '../actions';
 import {white, purple} from '../utils/colors';
+import {fetchDecks} from '../actions';
 
 class DeckDetail extends Component {
   static navigationOptions = ({navigation}) => {
@@ -19,6 +19,9 @@ class DeckDetail extends Component {
       title: title
     };
   };
+  componentDidMount() {
+    this.props.getDecks();
+  }
   toAddCard = () => {
     const {title} = this.props.navigation.state.params;
     this.props.navigation.navigate('AddCard', {
@@ -35,15 +38,14 @@ class DeckDetail extends Component {
     const navigation = this.props.navigation;
     const title = navigation.state.params.title;
     const deck = this.props.decks[title];
-    const questions = deck['questions'];
-    if (deck.length === 0) {
+    if (typeof deck === 'undefined' && deck.length === 0) {
       return <ActivityIndicator style={{marginTop: 30}} />;
     } else {
+      const questions = deck['questions'];
       return (
         <View style={[styles.container, styles.center]}>
           <Text style={styles.title}>{deck.title}</Text>
           <Text style={styles.cardCount}>
-            {' '}
             {`${deck.questions.length} cards`}
           </Text>
           <TouchableOpacity
@@ -75,14 +77,14 @@ class DeckDetail extends Component {
     }
   }
 }
+const mapDispatchToProps = dispatch => ({
+  getDecks: () => dispatch(fetchDecks())
+});
 
 const mapStateToProps = ({decks}, ownProps) => ({
   decks: decks || []
 });
 
-const mapDispatchToProps = dispatch => ({
-  getDeck: id => dispatch(fetchDeck(id))
-});
 const styles = StyleSheet.create({
   container: {
     flex: 1,
