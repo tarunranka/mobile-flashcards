@@ -5,7 +5,8 @@ import {
   TextInput,
   TouchableOpacity,
   StyleSheet,
-  Platform
+  Platform,
+  Alert
 } from 'react-native';
 import {connect} from 'react-redux';
 import {savenewdeck, fetchDecks} from '../actions';
@@ -18,13 +19,16 @@ class NewDeck extends Component {
 
   handleSubmit = () => {
     const {title} = this.state;
-    console.log(title);
-    this.props.savenewdeck({title});
-    this.props.getDecks();
-    this.props.navigation.goBack();
-    this.setState({
-      title: ''
-    });
+    if (title === '') {
+      Alert.alert('Please enter a new deck title');
+    } else {
+      this.props.savenewdeck({title});
+      this.props.getDecks();
+      this.props.navigation.goBack();
+      this.setState({
+        title: ''
+      });
+    }
   };
 
   render() {

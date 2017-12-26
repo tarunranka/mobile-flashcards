@@ -59,6 +59,15 @@ class StartQuiz extends Component {
   IncorrectSubmit = () => {
     this.CommonSubmit();
   };
+  restartQuiz = () => {
+    this.setState(state => {
+      return {
+        currentcount: 0,
+        correctcount: 0,
+        complete: false
+      };
+    });
+  };
   componentWillMount() {
     this.animatedValue = new Animated.Value(0);
     this.value = 0;
@@ -74,6 +83,7 @@ class StartQuiz extends Component {
       outputRange: ['180deg', '360deg']
     });
   }
+
   render() {
     const navigation = this.props.navigation;
     const title = navigation.state.params.title;
@@ -137,16 +147,29 @@ class StartQuiz extends Component {
         </View>
       );
     } else {
-      const total = 0;
-
+      let total = 0;
       if (this.state.correctcount !== 0) {
-        total = this.state.currentcount * 100 / this.state.correctcount;
+        total = Math.round(this.state.correctcount / questions.length * 100);
       }
       return (
         <View style={styles.container}>
-          <Text style={styles.question}>you have completed quiz.</Text>
-
+          <Text style={styles.question}>You have completed quiz.</Text>
           <Text style={styles.answer}>Correct percentage {total}%</Text>
+          <Text style={styles.answer}>
+            {this.state.correctcount} question(s) have been answered correctly
+            outof {questions.length}
+          </Text>
+          <TouchableOpacity
+            onPress={this.restartQuiz}
+            style={[
+              Platform.OS === 'ios'
+                ? styles.iosSubmitBtn
+                : styles.AndroidSubmitBtn,
+              {marginTop: 10}
+            ]}
+          >
+            <Text style={styles.submitBtnText}>Restart Quiz</Text>
+          </TouchableOpacity>
         </View>
       );
     }

@@ -5,7 +5,8 @@ import {
   StyleSheet,
   TextInput,
   TouchableOpacity,
-  Platform
+  Platform,
+  Alert
 } from 'react-native';
 import {connect} from 'react-redux';
 import {addQuestionToDeckID} from '../actions';
@@ -39,18 +40,22 @@ class AddCard extends Component {
   submit = () => {
     const {question, answer} = this.state;
     const {title} = this.props.navigation.state.params;
-    const deck = {
-      title,
-      card: {
-        question,
-        answer
-      }
-    };
-    this.props.addQuestionToDeckID(deck).then(data => {
-      this.setState({question: ''});
-      this.setState({answer: ''});
-      this.toDeckDetail();
-    });
+    if (question === '' || answer === '') {
+      Alert.alert('Please enter a Question and Answer');
+    } else {
+      const deck = {
+        title,
+        card: {
+          question,
+          answer
+        }
+      };
+      this.props.addQuestionToDeckID(deck).then(data => {
+        this.setState({question: ''});
+        this.setState({answer: ''});
+        this.toDeckDetail();
+      });
+    }
   };
   toDeckDetail = () => {
     this.props.navigation.goBack();
