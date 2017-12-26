@@ -95,7 +95,6 @@ class StartQuiz extends Component {
     const backAnimatedStyle = {
       transform: [{rotateY: this.backInterpolate}]
     };
-
     if (!this.state.complete) {
       return (
         <View style={styles.container}>

@@ -57,17 +57,19 @@ class DeckDetail extends Component {
           >
             <Text style={styles.submitBtnText}>Add Card</Text>
           </TouchableOpacity>
-          <TouchableOpacity
-            onPress={this.toStartQuiz}
-            style={[
-              Platform.OS === 'ios'
-                ? styles.iosSubmitBtn
-                : styles.AndroidSubmitBtn,
-              {marginTop: 10}
-            ]}
-          >
-            <Text style={styles.submitBtnText}>Start Quiz</Text>
-          </TouchableOpacity>
+          {questions.length != 0 && (
+            <TouchableOpacity
+              onPress={this.toStartQuiz}
+              style={[
+                Platform.OS === 'ios'
+                  ? styles.iosSubmitBtn
+                  : styles.AndroidSubmitBtn,
+                {marginTop: 10}
+              ]}
+            >
+              <Text style={styles.submitBtnText}>Start Quiz</Text>
+            </TouchableOpacity>
+          )}
         </View>
       );
     }
